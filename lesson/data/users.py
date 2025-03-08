@@ -3,6 +3,7 @@ import sqlalchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from data.db_session import SqlAlchemyBase
 from data import db_session
+from sqlalchemy import orm
 
 
 class User(SqlAlchemyBase):
@@ -29,5 +30,4 @@ class User(SqlAlchemyBase):
     def check_password(self, password):
         return check_password_hash(self.hashed_password, password)
 
-
-#db_session.global_init("../db/blogs.db")
+# db_session.global_init("../db/blogs.db")

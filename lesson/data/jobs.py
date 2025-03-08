@@ -1,6 +1,8 @@
 import datetime
 import sqlalchemy
 from lesson.data.db_session import SqlAlchemyBase
+from sqlalchemy import orm
+from .db_session import SqlAlchemyBase
 
 
 class Jobs(SqlAlchemyBase):
@@ -18,4 +20,3 @@ class Jobs(SqlAlchemyBase):
     end_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                  default=datetime.datetime.now)
     is_finished = sqlalchemy.Column(sqlalchemy.Boolean)
-
