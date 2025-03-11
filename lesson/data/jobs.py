@@ -1,6 +1,6 @@
 import datetime
 import sqlalchemy
-from lesson.data.db_session import SqlAlchemyBase
+from .db_session import SqlAlchemyBase
 
 
 class Jobs(SqlAlchemyBase):
