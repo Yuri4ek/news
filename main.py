@@ -1,5 +1,6 @@
-from flask import Flask, render_template, redirect, request, abort
-from data import db_session
+from flask import (Flask, render_template, redirect, request, abort,
+                   make_response, jsonify)
+from data import db_session, news_api
 from data.news import News
 from data.users import User
 from forms.user import RegisterForm, LoginForm
@@ -137,6 +138,7 @@ def reqister():
 
 def main():
     db_session.global_init("db/blogs.db")
+    app.register_blueprint(news_api.blueprint)
     app.run()
 
 
@@ -149,6 +151,16 @@ def index():
     else:
         news = db_sess.query(News).filter(News.is_private != True)
     return render_template("index.html", news=news)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+
+@app.errorhandler(400)
+def bad_request(_):
+    return make_response(jsonify({'error': 'Bad Request'}), 400)
 
 
 if __name__ == '__main__':
