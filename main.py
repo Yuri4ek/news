@@ -1,6 +1,7 @@
 from flask import (Flask, render_template, redirect, request, abort,
                    make_response, jsonify)
-from data import db_session, news_api
+from flask_restful import Api
+from data import db_session, news_api, news_resources
 from data.news import News
 from data.users import User
 from forms.user import RegisterForm, LoginForm
@@ -10,6 +11,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, \
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+api = Api(app)
 
 
 @app.route('/news', methods=['GET', 'POST'])
@@ -138,7 +140,11 @@ def reqister():
 
 def main():
     db_session.global_init("db/blogs.db")
-    app.register_blueprint(news_api.blueprint)
+    # для списка объектов
+    api.add_resource(news_resources.NewsListResource, '/api/v2/news')
+
+    # для одного объекта
+    api.add_resource(news_resources.NewsResource, '/api/v2/news/<int:news_id>')
     app.run()
 
 
