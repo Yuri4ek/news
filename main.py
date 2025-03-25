@@ -1,7 +1,7 @@
 from flask import (Flask, render_template, redirect, request, abort,
                    make_response, jsonify)
 from flask_restful import Api
-from data import db_session, news_api, news_resources
+from data import db_session, news_api, news_resources, users_resource
 from data.news import News
 from data.users import User
 from forms.user import RegisterForm, LoginForm
@@ -142,9 +142,13 @@ def main():
     db_session.global_init("db/blogs.db")
     # для списка объектов
     api.add_resource(news_resources.NewsListResource, '/api/v2/news')
-
     # для одного объекта
     api.add_resource(news_resources.NewsResource, '/api/v2/news/<int:news_id>')
+
+    api.add_resource(users_resource.UsersListResource, '/api/v2/users')
+    # для одного объекта
+    api.add_resource(users_resource.UsersResource,
+                     '/api/v2/users/<int:users_id>')
     app.run()
 
 
